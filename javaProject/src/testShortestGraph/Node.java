@@ -20,6 +20,10 @@ public class Node {
 		this.name = name;
 	}
 	
+	public void addChild(Node child, Integer distance) {
+		this.child.put(child,distance);
+	}
+	
 	public Map<Node,Integer> getChild(){
 		return child;
 	}
