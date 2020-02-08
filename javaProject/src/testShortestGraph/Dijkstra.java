@@ -9,10 +9,10 @@ import java.util.Map;
 public class Dijkstra {
 	List<Node> unvisited = new LinkedList<Node>();
 	List<Node> visited = new LinkedList<Node>();
-	Map<String,Integer> path = new HashMap<String,Integer>();//encapsulate distance of nodes
+	Map<Node,Integer> path = new HashMap<Node,Integer>();//encapsulate distance of nodes
 	Map<String,String> pathInfo = new HashMap<String,String>();//encapsulate path info nodes
 	
-	public static List<Node> build() {
+	public  static List<Node> build() {
 		Node node0 = new Node("n0");
 		Node node1 = new Node("n1");
 		Node node2 = new Node("n2");
@@ -115,28 +115,43 @@ public class Dijkstra {
 		list.add(node11);
 		list.add(node12);
 		list.add(node13);
+		list.add(node14);
 		return list;
 		
 	}
 	
+
 	public void computePath(Node start) {
-		Node nearest = getShortestPath(start);
+		Node nearest = getNearestNode(start);
 		if(nearest == null) {
 			return;
 		}
 		visited.add(nearest);//traversed nodes
 		unvisited.remove(nearest);
 		
-		System.out.println(nearest.getChild().keySet());
+		int shortestLen = start.getChild().get(nearest);//save the shortest length from start node to current nearest node
+		Map<Node,Integer> childs = nearest.getChild();
+		for(Node child:childs.keySet()) {
+			if(unvisited.contains(child)) {
+				Integer newCompute = shortestLen + childs.get(child);
+				if(newCompute < start.getChild().get(nearest)) {
+					path.put(child,newCompute);
+					System.out.println(start.getName() + "->" + path.get(child) + "newCompute:" + newCompute);
+				}
+			}
+		}
+		
 		
 		if(unvisited.isEmpty()) {
 			return;
 		}
+
 		computePath(nearest);
 	}
 	
+	
 	//this method is for searching the nearest node 
-	private Node getShortestPath(Node node) {
+	private Node getNearestNode(Node node) {
 		Node rest = null;
 		int minDis = Integer.MAX_VALUE;
 		Map<Node, Integer> childs = node.getChild();
@@ -157,10 +172,10 @@ public class Dijkstra {
 	public static void main(String[] args){
 		Dijkstra test = new Dijkstra();
 		List<Node> allNodes = build();
-		Node startNode = allNodes.get(0);
+		Node startNode = allNodes.get(9);
 		test.visited.clear();
 		test.unvisited = allNodes;
 		test.computePath(startNode);
-
+		//System.out.println(allNodes.get(0).getName());
 	}
 }
