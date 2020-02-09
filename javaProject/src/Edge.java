@@ -5,12 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Edge {
-/*count edges
- * invoke readFile() to get the sbff(StringBuffer)
- * use indexOf(String,fromIndex) to count the number of edges
- * return the number of edges
- * */
-	public int culculateEdges(StringBuffer sbff) throws IOException{
+	/**
+	 * count edges' number
+	 * @param StringBuffer type
+	 * */
+	public int calculateEdges(StringBuffer sbff) throws IOException{
 		int countEdges  = 0;
 		int index = 0;
 		String findIndex = "edge source = ";
@@ -20,10 +19,13 @@ public class Edge {
 		}
 		return countEdges;
 	}
+	/**
+	 * get edges' name
+	 * @param StringBuffer type
+	 *  */	  	
 	
-	
-	public List<String> displayEdges(StringBuffer buff){
-		StringBuffer sb = new StringBuffer(buff);
+	public List<String> displayEdges(StringBuffer sbff){
+		StringBuffer sb = new StringBuffer(sbff);
 		List<String> list = new ArrayList<String>();
 		int startIndex = 0;
 		int s = 0;
