@@ -1,4 +1,4 @@
-package group24;
+package javaProject;
 import java.util.*;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,8 +17,8 @@ public class Dijkstra {
 	
 	public Dijkstra(int len) {
 		// TODO Auto-generated constructor stub
-		visited=new LinkedList<Integer>();
-		distance=new int[len];
+		visited = new LinkedList<Integer>();
+		distance = new int[len];
 		
 	}
 	
@@ -31,49 +31,48 @@ public class Dijkstra {
 	 * @param edgeid The Edge Array
 	 * **/
 	public int dijkstra(int[][] weight,Object[] str,int v, FileWriter write, int[][] edgeid) throws IOException{
-		int dia =0;
+		int dia = 0;
 		HashMap<Integer, String> path;
-		path=new HashMap<Integer, String>();
+		path = new HashMap<Integer, String>();
 		for(int i = 0;i < str.length;i++)
 			path.put(i, "");
 
-		for(int i=0;i<str.length;i++){
-			path.put(i, path.get(i)+""+str[v]);
-			if(i==v) {
-				distance[i]=0;
+		for(int i = 0;i < str.length;i++){
+			path.put(i, path.get(i)+"" + str[v]);
+			if(i == v) {
+				distance[i] = 0;
 			}else if(weight[v][i]!=-1){
-				distance[i]=weight[v][i];
-				path.put(i, path.get(i)+"-->"+str[i]);
+				distance[i] = weight[v][i];
+				path.put(i, path.get(i)+"-->" + str[i]);
 			}else {
-				distance[i]=Integer.MAX_VALUE;
+				distance[i] = Integer.MAX_VALUE;
 			}
 		}
 		visited.add(v);
-		while(visited.size()<str.length){
-			int k=getIndex(visited,distance);//get unvisited 获取未访问点中距离源点最近的点
+		while(visited.size() < str.length){
+			int k = getIndex(visited,distance);//get node in unvisited  which is nearest to start node
 			visited.add(k);
-			if(k!=-1){ 
-				for(int j=0;j<str.length;j++){
-					if(weight[k][j]!=-1){		//判断k点能够直接到达的点
-						//通过遍历各点，比较是否有比当前更短的路径，有的话，则更新distance，并更新path。
-						if(distance[j]>distance[k]+weight[k][j]){
-							distance[j]=distance[k]+weight[k][j];
-							path.put(j, path.get(k)+"-->"+str[j]);		
+			if(k != -1){ 
+				for(int j = 0;j < str.length;j++){
+					if(weight[k][j] != -1){		//judge which node is connected with node k directly 
+						//traverse all nodes compare if there has shorter path,if has then update distance and path
+						if(distance[j] > distance[k] + weight[k][j]){
+							distance[j] = distance[k] + weight[k][j];
+							path.put(j, path.get(k) + "-->" + str[j]);		
 						}
 					}
 				}	
 			}
 		}
-		for(int h=0;h<str.length;h++){
+		for(int h = 0;h < str.length;h++){
 			
-			if(distance[h]==Integer.MAX_VALUE) {
-				write.write(str[v]+" To node "+ "'" + str[h]+ "'" +"  no path");
+			if(distance[h] == Integer.MAX_VALUE) {
+				write.write(str[v] + " To node " + "'" + str[h] + "'" + "  no path");
 			}
-			
 			else {
-				String n =ChangetoEdge(path.get(h).toString(),edgeid);
-				write.write(str[v]+" To node "+ "'" +str[h]+ "'" + ": path-> node["+path.get(h).toString()+"] edge["+n+"]; length:"+distance[h]+" ");
-				dia = ChangeValue(dia,distance[h]);
+				String n = changeToEdge(path.get(h).toString(),edgeid);
+				write.write(str[v] + " To node " + "'" + str[h] + "'" + ": path-> node[" + path.get(h).toString() + "] edge[" + n + "]; length:" + distance[h] + " ");
+				dia = changeValue(dia,distance[h]);
 			}
 			write.write("\n");
 		}
@@ -89,13 +88,13 @@ public class Dijkstra {
 	 * <p>getIndex, find the nearest node</p>
 	 * **/
 	private int getIndex(Queue<Integer> q,int[] dis){
-		int k=-1;
-		int min_num=Integer.MAX_VALUE;
-		for(int i=0;i<dis.length;i++){
+		int k = -1;
+		int min_num = Integer.MAX_VALUE;
+		for(int i = 0;i < dis.length;i++){
 			if(!q.contains(i)){
-				if(dis[i]<min_num){
-					min_num=dis[i];
-					k=i;
+				if(dis[i] < min_num){
+					min_num = dis[i];
+					k = i;
 				}
 			}
 		}
@@ -118,13 +117,13 @@ public class Dijkstra {
 	 * @param a node rout
 	 * @param edgeArr EdgeID Array
 	 * **/
-	private static String ChangetoEdge(String a,int[][] edgeArr) {
+	private static String changeToEdge(String a,int[][] edgeArr) {
 		StringBuffer stb = new StringBuffer();
 		if(a.contains("-->")) {
-			String[] h =a.split("-->");
-			for (int i = 0 ; i < h.length-1;i++) {
-				int node1 =num(h[i]);
-				int node2 = num(h[i+1]);
+			String[] h = a.split("-->");
+			for (int i = 0 ; i < h.length - 1;i++) {
+				int node1 = num(h[i]);
+				int node2 = num(h[i + 1]);
 				stb.append(edgeArr[node1][node2]);
 				stb.append("->");
 			}
@@ -139,7 +138,7 @@ public class Dijkstra {
 	/**
 	 * <p>ChangeValue, Compare two value and output the large one</p>
 	 * **/
-	static int ChangeValue(int a, int b) {
+	static int changeValue(int a, int b) {
 		if(a >= b) {
 			return a;
 		}

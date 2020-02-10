@@ -1,4 +1,4 @@
-package group24;
+package javaProject;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -56,7 +56,7 @@ public class ArrayGen {
 		 for (int i = 0 ; i <= count - 1 ; i++) {
 			 for (int j = 0 ; j <= count - 1; j++) {
 				 
-				 datare[i][j]=Calculating.edgeID(data, gennum(i), gennum(j));
+				 datare[i][j] = Calculating.edgeID(data, gennum(i), gennum(j));
 			 }
 		 }
 		 for (int i = 0; i <= count - 1; i ++) {
@@ -71,7 +71,7 @@ public class ArrayGen {
 	 * Used to create an integer array containing the Name of node
 	 * @param data GraphML
 	 * **/
-	static Integer[] NodeNameI(String data) {
+	static Integer[] nodeNameI(String data) {
 		int num = Calculating.nodeCount(data);
 		Integer[] result = new Integer[num];
 		for( int i = 0 ; i < num ; i++) {
